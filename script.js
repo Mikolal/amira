@@ -60,6 +60,27 @@ window.addEventListener('scroll', () => {
     });
 });
 
+// Menu category filter
+const menuTabs = document.querySelectorAll('.menu-tab');
+const menuItems = document.querySelectorAll('.menu-item');
+
+if (menuTabs.length && menuItems.length) {
+    menuTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const category = tab.dataset.category;
+
+            menuTabs.forEach(button => {
+                button.classList.toggle('active', button === tab);
+            });
+
+            menuItems.forEach(item => {
+                const shouldShow = category === 'all' || item.dataset.category === category;
+                item.style.display = shouldShow ? '' : 'none';
+            });
+        });
+    });
+}
+
 // Smooth scroll for anchor links
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function(e) {
@@ -315,33 +336,6 @@ interactiveElements.forEach(element => {
     element.addEventListener('mouseleave', () => {
         cursor.style.transform = 'scale(1)';
         cursor.style.background = 'transparent';
-    });
-});
-
-// Menu category filter
-const menuTabs = document.querySelectorAll('.menu-tab');
-const menuItems = document.querySelectorAll('.menu-item');
-
-menuTabs.forEach(tab => {
-    tab.addEventListener('click', () => {
-        // Remove active class from all tabs
-        menuTabs.forEach(t => t.classList.remove('active'));
-        // Add active class to clicked tab
-        tab.classList.add('active');
-
-        const category = tab.getAttribute('data-category');
-
-        // Filter menu items
-        menuItems.forEach(item => {
-            const itemCategory = item.getAttribute('data-category');
-
-            if (category === 'all' || itemCategory === category) {
-                item.style.display = 'block';
-                item.style.animation = 'fadeIn 0.5s ease';
-            } else {
-                item.style.display = 'none';
-            }
-        });
     });
 });
 
